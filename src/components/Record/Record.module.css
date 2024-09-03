@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
-
 }
 
 .record {
@@ -30,4 +29,14 @@
 }
 .action {
     margin-right: 10px;
+}
+
+.text {
+    width: 80%;
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: lightblue;
+    color: var(--second-color);
+    border-radius: 5px;
 }

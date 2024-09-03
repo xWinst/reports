@@ -5,10 +5,21 @@ import { Button, Icon } from 'components';
 import { addRecord, setFrequencies } from 'state/database';
 import s from './RecordForm.module.css';
 
+const emptyRecord = {
+    time: '',
+    frequency: '',
+    location: '',
+    subdivision: '',
+    asker: '',
+    answerer: '',
+    text: '',
+    action: '',
+};
+
 // const saved = {frequency = []};
 const RecordForm = () => {
     const { frequencies } = useSelector(state => state.database);
-    const [record, setRecord] = useState({});
+    const [record, setRecord] = useState(emptyRecord);
     const [saved, setSaved] = useState({});
     const [callsign, setCallsign] = useState('');
     const [other, setOther] = useState([]);
@@ -19,9 +30,6 @@ const RecordForm = () => {
     const copyTetx = useRef();
 
     const save = () => {
-        // const data = JSON.stringify(record);
-        // localStorage.setItem('record', data);
-
         let subdivisionsList = frequencies.flatMap(({ subdivisions }) => subdivisions);
         subdivisionsList.push(record.subdivision);
         subdivisionsList = subdivisionsList.filter((el, ind, arr) => ind === arr.indexOf(el));
@@ -42,19 +50,11 @@ const RecordForm = () => {
         newFrequencieList.push(newFrequencie);
         dispatch(setFrequencies(newFrequencieList));
 
-        setRecord({});
+        setRecord(emptyRecord);
+        setCallsign('');
+        setOther([]);
 
-        console.log('copyTetx: ', copyTetx);
-        // const a = document.createElement('a');
-        // const file = new Blob([data], {
-        //     type: 'plain/text',
-        // });
-        // a.href = URL.createObjectURL(file);
-        // console.log('file: ', file);
-        // console.log('a.href: ', a);
-        // a.download = 'lights.json';
-        // a.click();
-        // a.remove();
+        copyTetx.current.value = '';
     };
 
     const sendRecord = () => {

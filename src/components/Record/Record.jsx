@@ -26,11 +26,7 @@ const Record = ({ record, isExpand }) => {
                 />
             </div>
 
-            {isExpanded && (
-                <>
-                    <textarea disabled value={text} />
-                </>
-            )}
+            {isExpanded && <p className={s.text}>{text}</p>}
         </li>
     );
 };
