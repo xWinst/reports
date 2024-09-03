@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Button, Icon } from 'components';
@@ -15,6 +15,8 @@ const RecordForm = () => {
     const [knownCallsigns, setKnownCallsigns] = useState([]);
 
     const dispatch = useDispatch();
+
+    const copyTetx = useRef();
 
     const save = () => {
         // const data = JSON.stringify(record);
@@ -40,6 +42,9 @@ const RecordForm = () => {
         newFrequencieList.push(newFrequencie);
         dispatch(setFrequencies(newFrequencieList));
 
+        setRecord({});
+
+        console.log('copyTetx: ', copyTetx);
         // const a = document.createElement('a');
         // const file = new Blob([data], {
         //     type: 'plain/text',
@@ -252,7 +257,7 @@ const RecordForm = () => {
 
             <label className={s.label}>
                 <span className={s.title}>Копія повідомлення</span>
-                <textarea className={s.copyMessage} />
+                <textarea className={s.copyMessage} ref={copyTetx} />
             </label>
         </form>
     );

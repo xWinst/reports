@@ -6,7 +6,7 @@ import s from './pages.module.css';
 
 const Records = () => {
     const { records, frequencies } = useSelector(state => state.database);
-    console.log('records: ', records);
+    // console.log('records: ', records);
     const [isExpand, setIsExpand] = useState(false);
 
     const [visibleList, setVisibleList] = useState(records);
@@ -83,7 +83,7 @@ const Records = () => {
                     <Select
                         list={getList('subdivision')}
                         onSelect={setSubdivision}
-                        value={location}
+                        value={subdivision}
                         name="subdivision"
                     />
                 </div>
