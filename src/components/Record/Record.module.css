@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+}
+
+.record {
+    padding: 4px 10px;
+    border: 2px solid var(--third-color);
+    border-radius: 5px;
+}
+
+.dscr {
+    display: flex;
+    font-size: 12px;
+}
+
+.time {
+    width: 60px;
+}
+.frequency {
+    width: 100px;
+}
+.location {
+    width: 100px;
+}
+.subdivision {
+    width: 100px;
+}
+.action {
+    margin-right: 10px;
+}
