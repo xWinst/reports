@@ -1,0 +1,18 @@
+.calendar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.datePicker {
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    line-height: 1.67;
+    letter-spacing: 0.04em;
+    margin-left: 10px;
+    color: var(--main-color);
+    background-color: var(--btn-color);
+    border: none;
+}

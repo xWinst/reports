@@ -1,0 +1,31 @@
+.header {
+    width: 100%;
+    background-image: var(--bg-gradient2);
+
+    .nav {
+        display: flex;
+        justify-content: space-around;
+        margin: 0 auto;
+        padding: 10px 0;
+    }
+}
+
+.link {
+    display: block;
+    padding: 6px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--third2-color);
+
+    transition: color 300ms ease;
+}
+
+.link:hover {
+    color: var(--accent-color);
+}
+
+.active {
+    composes: link;
+    color: var(--accent-color);
+    border-bottom: 2px solid;
+}

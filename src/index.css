@@ -1,0 +1,111 @@
+@import 'modern-normalize/modern-normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --main-color: #eeeeee;
+    /* --main-color: #00cfff; */
+    --second-color: #222222;
+    --third-color: #49e1af;
+    --third2-color: #49e1af66;
+    --btn-color: #0f1d1f;
+    --accent-color: #ffa000;
+    --firework-color: #ffa000;
+    /* --accent-color: #00cfff; */
+    --bg-color: #343c3e;
+    --bg-gradient: linear-gradient(30deg, #0e2013, #394f55);
+    --bg-gradient2: linear-gradient(120deg, #0e2013, #394f55);
+    --additional-color: #580000;
+    --error-color: #ff0000;
+
+    /* 
+    --color: #100764;
+    --box-shadow: 1px 3px 5px #aab2c533;
+    --transition: background-color 300ms ease, color 300ms ease; */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.17;
+    letter-spacing: 0.04em;
+    color: var(--main-color);
+    background-image: var(--bg-gradient);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+p,
+h2 {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* input {
+    background-color: inherit;
+} */
+
+input:focus {
+    outline: none;
+}
+
+input:-inter input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.hidden {
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    margin: -1px;
+}
+
+
+
+.title {
+    margin: 10px 0;
+    padding: 6px 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--third-color);
+    background-image: radial-gradient(
+        circle at center,
+        #15956a8a 30%,
+        #4470614a 75%
+    );
+}

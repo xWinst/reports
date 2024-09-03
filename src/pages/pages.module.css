@@ -1,0 +1,11 @@
+.box {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
