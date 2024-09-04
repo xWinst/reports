@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Record, Select } from 'components';
+import { Button, MultiSelect, Record, Select } from 'components';
 import { clear } from 'state/database';
 import s from './pages.module.css';
 
@@ -56,6 +56,11 @@ const Records = () => {
         dispatch(clear());
     };
 
+    const checkLocation = checkedList => {
+        if (checkedList[0]) setLocation('Всі');
+        else setLocation('Обрані');
+    };
+
     return (
         <>
             <p>Фільтри:</p>
@@ -71,9 +76,9 @@ const Records = () => {
                 </div>
                 <div>
                     <p>Район</p>
-                    <Select
+                    <MultiSelect
                         list={getList('location')}
-                        onSelect={setLocation}
+                        onSelect={checkLocation}
                         value={location}
                         name="location"
                     />
