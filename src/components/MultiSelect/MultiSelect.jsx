@@ -8,15 +8,15 @@ const getCheckedList = list => {
 
 const MultiSelect = ({ list, onSelect, value, name }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [checkedList, setCheckedList] = useState(list);
+    const [checkedList, setCheckedList] = useState(getCheckedList(list));
 
     useEffect(() => {
-        const onClick = e => {
-            const target = e.target.getAttribute('name');
-            const parent = e.target.parentElement?.getAttribute('name');
-            const grandParent = e.target.parentElement?.parentElement?.getAttribute('name');
-            if (target !== name && parent !== name && grandParent !== name) setIsExpanded(false);
-        };
+        // const onClick = e => {
+        //     const target = e.target.getAttribute('name');
+        //     const parent = e.target.parentElement?.getAttribute('name');
+        //     const grandParent = e.target.parentElement?.parentElement?.getAttribute('name');
+        //     if (target !== name && parent !== name && grandParent !== name) setIsExpanded(false);
+        // };
 
         const onKeyDown = event => {
             // console.log('Pressed = ', event.code);
@@ -31,10 +31,6 @@ const MultiSelect = ({ list, onSelect, value, name }) => {
             window.removeEventListener('keydown', onKeyDown);
         };
     }, [name]);
-
-    useEffect(() => {
-        onSelect(checkedList);
-    }, [checkedList, onSelect]);
 
     const toggleState = () => {
         setIsExpanded(state => !state);
@@ -52,6 +48,7 @@ const MultiSelect = ({ list, onSelect, value, name }) => {
         if (prev.every((el, idx) => el === true || idx === 0)) prev[0] = true;
 
         setCheckedList(prev);
+        onSelect(prev);
     };
 
     return (

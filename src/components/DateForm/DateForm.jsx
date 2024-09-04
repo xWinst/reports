@@ -9,19 +9,20 @@ const DateForm = () => {
     const [shift, setShift] = useState('Денна');
 
     return (
-            <div className={s.calendar}>
-                <Icon icon="calendar" w={18} h={20} />
-                <p>Поточна Дата: </p>
-                <DatePicker
-                    maxDate={new Date()}
-                    selected={date}
-                    onChange={date => setDate(date)}
-                    className={s.datePicker}
-                    dateFormat="dd/MM/yyyy"
-                />
-                <p>Зміна</p>
-                <Select list={['Денна', 'Нічна']} onSelect={setShift} value={shift} name="shift" />
-            </div>
+        <div className={s.calendar}>
+            <Icon icon="calendar" w={18} h={20} />
+            <p>Поточна Дата: </p>
+            <DatePicker
+                maxDate={new Date()}
+                selected={date}
+                onChange={date => setDate(date)}
+                className={s.datePicker}
+                dateFormat="dd/MM/yyyy"
+                // dateFormat="MMMM d, yyyy h:mm aa"
+            />
+            <p>Зміна</p>
+            <Select list={['Денна', 'Нічна']} onSelect={setShift} value={shift} name="shift" />
+        </div>
     );
 };
 

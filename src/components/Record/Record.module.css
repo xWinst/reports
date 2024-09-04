@@ -5,9 +5,15 @@
 }
 
 .record {
+    /* display: flex; */
     padding: 4px 10px;
     border: 2px solid var(--third-color);
     border-radius: 5px;
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
 }
 
 .dscr {
@@ -22,13 +28,18 @@
     width: 100px;
 }
 .location {
-    width: 100px;
+    width: 260px;
 }
 .subdivision {
     width: 100px;
 }
 .action {
     margin-right: 10px;
+}
+
+.icons {
+    display: flex;
+    gap: 10px;
 }
 
 .text {

@@ -3,6 +3,7 @@ export { default as DateForm } from './DateForm/DateForm';
 export { default as Icon } from './Icon/Icon';
 export { default as Header } from './Header/Header';
 export { default as Menu } from './Menu/Menu';
+export { default as Modal } from './Modal/Modal';
 export { default as MultiSelect } from './MultiSelect/MultiSelect';
 export { default as PublicRoutes } from './Routes/PublicRoutes';
 export { default as Record } from './Record/Record';

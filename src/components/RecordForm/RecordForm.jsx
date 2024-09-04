@@ -27,7 +27,7 @@ const RecordForm = () => {
 
     const dispatch = useDispatch();
 
-    const copyTetx = useRef();
+    const copyText = useRef();
 
     const save = () => {
         let subdivisionsList = frequencies.flatMap(({ subdivisions }) => subdivisions);
@@ -54,7 +54,7 @@ const RecordForm = () => {
         setCallsign('');
         setOther([]);
 
-        copyTetx.current.value = '';
+        copyText.current.value = '';
     };
 
     const sendRecord = () => {
@@ -257,7 +257,7 @@ const RecordForm = () => {
 
             <label className={s.label}>
                 <span className={s.title}>Копія повідомлення</span>
-                <textarea className={s.copyMessage} ref={copyTetx} />
+                <textarea className={s.copyMessage} ref={copyText} />
             </label>
         </form>
     );
