@@ -125,6 +125,71 @@ const RecordForm = () => {
         setOther(other.filter(nickName => nickName !== name));
     };
 
+    const parseData = e => {
+        const data = e.target.value;
+        if (data.includes('Локація')) {
+            const timeStartIdx = data.indexOf('Час:');
+            const timeEndIdx = data.indexOf(';', timeStartIdx);
+
+            const freStartIdx = data.indexOf('Частота:');
+            const freEndIdx = data.indexOf(';', freStartIdx);
+
+            const locStartIdx = data.indexOf('Локація:');
+            const locEndIdx = data.indexOf(';', locStartIdx);
+
+            const subDivStartIdx = data.indexOf('Підрозділ:');
+            const subDivEndIdx = data.indexOf(';', subDivStartIdx);
+
+            const askerStartIdx = data.indexOf('Хто:');
+            const askerEndIdx = data.indexOf(';', askerStartIdx);
+            const answererStartIdx = data.indexOf('Кому:');
+            const answererEndIdx = data.indexOf(';', answererStartIdx);
+            const textStartIdx = data.indexOf('Текст:');
+
+            const time = data.slice(timeStartIdx + 5, timeEndIdx);
+            const frequency = data.slice(freStartIdx + 9, freEndIdx);
+            console.log('frequency: ', frequency);
+            const location = data.slice(locStartIdx + 9, locEndIdx);
+            const subdivision = data.slice(subDivStartIdx + 11, subDivEndIdx);
+            const asker = data.slice(askerStartIdx + 5, askerEndIdx);
+            const answerer = data.slice(answererStartIdx + 6, answererEndIdx);
+            const text = data.slice(textStartIdx + 6);
+
+            setRecord(prev => ({
+                ...prev,
+                time,
+                frequency,
+                location,
+                subdivision,
+                asker,
+                answerer,
+                text,
+            }));
+        } else {
+            const rows = data.split('\n');
+            if (rows[0][9] === ':' && rows[0][12] === ':') {
+                const time = data.slice(7, 15);
+                const frequency = rows[1];
+
+                const asker = rows[3] === 'НВ' ? '' : rows[3];
+                const answerer = rows[4] === 'НВ' ? '' : rows[4];
+
+                const text = rows.slice(6).join('\n');
+
+                setRecord(prev => ({
+                    ...prev,
+                    time,
+                    frequency,
+                    // location,
+                    // subdivision,
+                    asker,
+                    answerer,
+                    text,
+                }));
+            }
+        }
+    };
+
     return (
         <form className={s.form} onSubmit={sendRecord}>
             <div className={s.box}>
@@ -257,7 +322,7 @@ const RecordForm = () => {
 
             <label className={s.label}>
                 <span className={s.title}>Копія повідомлення</span>
-                <textarea className={s.copyMessage} ref={copyText} />
+                <textarea className={s.copyMessage} ref={copyText} onChange={parseData} />
             </label>
         </form>
     );
