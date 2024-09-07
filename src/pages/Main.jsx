@@ -1,13 +1,13 @@
-import { DateForm, RecordForm, Menu } from 'components';
-import s from './pages.module.css';
+import { RecordForm } from 'components';
+// import s from './pages.module.css';
 
 const Main = () => {
     return (
         <div>
-            <div className={s.box}>
+            {/* <div className={s.box}>
                 <DateForm />
                 <Menu />
-            </div>
+            </div> */}
             <RecordForm />
         </div>
     );

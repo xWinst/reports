@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, MultiSelect, Record, Select, Modal } from 'components';
+import { Button, MultiSelect, Record, Select, Modal, DateForm, Menu } from 'components';
 import { clear } from 'state/database';
 import s from './pages.module.css';
 
 const Records = () => {
     const { records, frequencies } = useSelector(state => state.database);
+    const date = useSelector(state => state.date.date);
+    console.log('date: ', date.toLocaleString());
+    const shift = useSelector(state => state.date.shift);
     const [checkedRecords, setCheckedRecords] = useState(records.map(() => false));
     // console.log('records: ', records);
     const [isExpand, setIsExpand] = useState(false);
@@ -55,7 +58,9 @@ const Records = () => {
             type: 'plain/text',
         });
         a.href = URL.createObjectURL(file);
-        a.download = 'db.json';
+        const fileName = `${date}${shift === 'Денна' ? '_d' : '_n'}.json`;
+        console.log('fileName: ', fileName);
+        a.download = fileName;
         a.click();
         a.remove();
 
@@ -104,6 +109,10 @@ const Records = () => {
 
     return (
         <>
+            <div className={s.box}>
+                <DateForm />
+                <Menu />
+            </div>
             <p>Фільтри:</p>
             <div className={s.box}>
                 <div className={s.fff}>

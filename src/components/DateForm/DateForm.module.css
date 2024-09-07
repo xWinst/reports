@@ -6,8 +6,9 @@
 }
 
 .datePicker {
+    width: 115px;
     margin: 0;
-    padding: 0;
+    padding: 2px 12px 0px;
     font-weight: 700;
     line-height: 1.67;
     letter-spacing: 0.04em;
@@ -15,4 +16,5 @@
     color: var(--main-color);
     background-color: var(--btn-color);
     border: none;
+    border-radius: 5px;
 }

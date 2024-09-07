@@ -11,15 +11,17 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import database from './database';
+import date from './date';
 
 const persistConfig = {
     key: 'database',
-    storage
+    storage,
 };
 
 const rootReducer = combineReducers({
     // game: persistReducer({ key: 'game', storage }, game),
     database: persistReducer(persistConfig, database),
+    date,
 });
 
 export const store = configureStore({
@@ -27,14 +29,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             serializableCheck: {
-                ignoredActions: [
-                    FLUSH,
-                    REHYDRATE,
-                    PAUSE,
-                    PERSIST,
-                    PURGE,
-                    REGISTER,
-                ],
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 ignoredActionPaths: ['payload'],
             },
         }),

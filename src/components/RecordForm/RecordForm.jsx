@@ -64,14 +64,19 @@ const RecordForm = () => {
     };
 
     const setData = event => {
-        const { name, value } = event.target;
+        let { name, value } = event.target;
+        console.log('value: ', value);
         if (name === 'frequency') {
+            console.log('Bingo!');
+            value = parseFloat(value);
+            console.log('value: ', value);
+            if (!value) value = '';
             const knownFrequency = frequencies.find(item => item.value === value);
             if (knownFrequency) {
                 setKnownCallsigns(knownFrequency.nickNames || []);
                 const subdivision = knownFrequency.currentSubdivision;
                 const location = knownFrequency.currentLocation;
-                setRecord(prev => ({ ...prev, [name]: value, location, subdivision }));
+                setRecord(prev => ({ ...prev, value, location, subdivision }));
                 return;
             }
         }
@@ -81,12 +86,13 @@ const RecordForm = () => {
         //     if (knownLocation) {
         //     }
         // }
+        console.log('value2: ', value);
         setRecord(prev => ({ ...prev, [name]: value }));
     };
 
     const saveData = e => {
         const { name, value } = e.target;
-        console.log('name: ', name);
+        // console.log('name: ', name);
         let arr = saved[name] ? [...saved[name]] : [];
         arr.push(value);
         arr = arr.filter((el, ind) => ind === arr.indexOf(el));
@@ -148,7 +154,6 @@ const RecordForm = () => {
 
             const time = data.slice(timeStartIdx + 5, timeEndIdx);
             const frequency = data.slice(freStartIdx + 9, freEndIdx);
-            console.log('frequency: ', frequency);
             const location = data.slice(locStartIdx + 9, locEndIdx);
             const subdivision = data.slice(subDivStartIdx + 11, subDivEndIdx);
             const asker = data.slice(askerStartIdx + 5, askerEndIdx);
@@ -207,7 +212,7 @@ const RecordForm = () => {
                     <span className={s.title}>Частота</span>
                     <input
                         list="frequency"
-                        type="number"
+                        type="text"
                         value={record.frequency}
                         onChange={setData}
                         onBlur={saveData}
