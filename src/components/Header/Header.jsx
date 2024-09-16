@@ -10,6 +10,9 @@ const Header = () => {
                 <NavLink to="/" className={({ isActive }) => getClass(isActive)}>
                     Головна
                 </NavLink>
+                <NavLink to="/data" className={({ isActive }) => getClass(isActive)}>
+                    База даних
+                </NavLink>
                 <NavLink to="/records" className={({ isActive }) => getClass(isActive)}>
                     Перехвати
                 </NavLink>

@@ -42,6 +42,10 @@
     gap: 10px;
 }
 
+.icons svg {
+    cursor: pointer;
+}
+
 .text {
     width: 90%;
     margin-top: 10px;

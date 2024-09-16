@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Button, Icon } from 'components';
-import { addRecord, setFrequencies } from 'state/database';
+import { addRecord, setFrequencies, setLocations, setSubdivisions } from 'state/database';
+import message from 'helpers/Message';
 import s from './RecordForm.module.css';
 
 const emptyRecord = {
@@ -18,7 +19,7 @@ const emptyRecord = {
 
 // const saved = {frequency = []};
 const RecordForm = () => {
-    const { frequencies } = useSelector(state => state.database);
+    const { frequencies, locations, subdivisions } = useSelector(state => state.database);
     const [record, setRecord] = useState(emptyRecord);
     const [saved, setSaved] = useState({});
     const [callsign, setCallsign] = useState('');
@@ -26,8 +27,9 @@ const RecordForm = () => {
     const [knownCallsigns, setKnownCallsigns] = useState([]);
 
     const dispatch = useDispatch();
-
     const copyText = useRef();
+
+    useEffect(() => {}, []);
 
     const save = () => {
         let subdivisionsList = frequencies.flatMap(({ subdivisions }) => subdivisions);
@@ -46,9 +48,45 @@ const RecordForm = () => {
             locations: locationsList,
         };
 
+        let locationUnitList = locations.flatMap(({ subdivisions }) => subdivisions);
+        locationUnitList.push(record.subdivision);
+        locationUnitList = locationUnitList.filter((el, ind, arr) => ind === arr.indexOf(el));
+
+        let wavetList = locations.flatMap(({ waves }) => waves);
+        wavetList.push(record.frequency);
+        wavetList = wavetList.filter((el, ind, arr) => ind === arr.indexOf(el));
+
+        const newLocation = {
+            loc: record.location,
+            subdivisions: locationUnitList,
+            waves: wavetList,
+        };
+
+        let unitlocationsList = subdivisions.flatMap(({ locations }) => locations);
+        unitlocationsList.push(record.location);
+        unitlocationsList = unitlocationsList.filter((el, ind, arr) => ind === arr.indexOf(el));
+
+        let unitWavetList = subdivisions.flatMap(({ waves }) => waves);
+        unitWavetList.push(record.frequency);
+        unitWavetList = unitWavetList.filter((el, ind, arr) => ind === arr.indexOf(el));
+
+        const newUnit = {
+            unit: record.subdivision,
+            locations: unitlocationsList,
+            waves: unitWavetList,
+        };
+
         const newFrequencieList = frequencies.filter(({ value }) => value !== record.frequency);
         newFrequencieList.push(newFrequencie);
         dispatch(setFrequencies(newFrequencieList));
+
+        const newLocationsList = locations.filter(({ loc }) => loc !== record.location);
+        newLocationsList.push(newLocation);
+        dispatch(setLocations(newLocationsList));
+
+        const newUnitsList = subdivisions.filter(({ unit }) => unit !== record.subdivision);
+        newUnitsList.push(newUnit);
+        dispatch(setSubdivisions(newUnitsList));
 
         setRecord(emptyRecord);
         setCallsign('');
@@ -61,24 +99,30 @@ const RecordForm = () => {
         dispatch(addRecord({ ...record, id: nanoid() }));
 
         save();
+
+        message.sucsess('Запис додано');
     };
 
     const setData = event => {
         let { name, value } = event.target;
-        console.log('value: ', value);
+        // console.log('value: ', value);
         if (name === 'frequency') {
-            console.log('Bingo!');
+            // console.log('Bingo!');
             value = parseFloat(value);
-            console.log('value: ', value);
+            // console.log('value: ', value);
             if (!value) value = '';
             const knownFrequency = frequencies.find(item => item.value === value);
             if (knownFrequency) {
                 setKnownCallsigns(knownFrequency.nickNames || []);
                 const subdivision = knownFrequency.currentSubdivision;
                 const location = knownFrequency.currentLocation;
-                setRecord(prev => ({ ...prev, value, location, subdivision }));
+                console.log('value: SET ', value);
+                setRecord(prev => ({ ...prev, frequency: value, location, subdivision }));
                 return;
             }
+        } else value = value.toLowerCase();
+
+        if (name === 'text') {
         }
 
         // if (name === 'location') {
@@ -86,12 +130,13 @@ const RecordForm = () => {
         //     if (knownLocation) {
         //     }
         // }
-        console.log('value2: ', value);
+
         setRecord(prev => ({ ...prev, [name]: value }));
     };
 
     const saveData = e => {
         const { name, value } = e.target;
+        console.log('value: ', value);
         // console.log('name: ', name);
         let arr = saved[name] ? [...saved[name]] : [];
         arr.push(value);
@@ -100,15 +145,23 @@ const RecordForm = () => {
     };
 
     const addCallsigns = e => {
-        const { value } = e.target;
-        // console.log('e', e.target.value);
-        // console.log(' other.includes(value)', knownCallsigns.includes(value));
-        // console.log('e.keyCode', e.keyCode);
-        if (e.code === 'Enter' || knownCallsigns.includes(value)) {
+        // console.log('e: ', e);
+        let { value } = e.target;
+        console.log('value: ', value);
+        value = value.toLowerCase();
+        // if (value.includes(',')) {
+        //     return;
+        // }
+        if (e.code === 'Enter' || value.includes(',')) {
             let arr = [...other];
             let arr2 = [...knownCallsigns];
-            arr.push(value);
-            arr2.push(value);
+            console.log('value.split[', ']: ', value.split(','));
+            value = value
+                .split(',')
+                .map(el => el.trim())
+                .filter(el => el);
+            if (value) arr.push(...value);
+            arr2.push(...value);
             arr = arr.filter((el, ind) => ind === arr.indexOf(el));
             arr2 = arr2.filter((el, ind) => ind === arr2.indexOf(el));
             setCallsign('');
@@ -120,9 +173,8 @@ const RecordForm = () => {
 
     const addKnownNick = e => {
         const { value } = e.target;
-        console.log('e', e.target.value);
         let arr2 = [...knownCallsigns];
-        arr2.push(value);
+        arr2.push(value.toLowerCase());
         arr2 = arr2.filter((el, ind) => ind === arr2.indexOf(el));
         setKnownCallsigns(arr2);
     };
@@ -153,11 +205,11 @@ const RecordForm = () => {
             const textStartIdx = data.indexOf('Текст:');
 
             const time = data.slice(timeStartIdx + 5, timeEndIdx);
-            const frequency = data.slice(freStartIdx + 9, freEndIdx);
-            const location = data.slice(locStartIdx + 9, locEndIdx);
-            const subdivision = data.slice(subDivStartIdx + 11, subDivEndIdx);
-            const asker = data.slice(askerStartIdx + 5, askerEndIdx);
-            const answerer = data.slice(answererStartIdx + 6, answererEndIdx);
+            const frequency = parseFloat(data.slice(freStartIdx + 9, freEndIdx));
+            const location = data.slice(locStartIdx + 9, locEndIdx).toLowerCase();
+            const subdivision = data.slice(subDivStartIdx + 11, subDivEndIdx).toLowerCase();
+            const asker = data.slice(askerStartIdx + 5, askerEndIdx).toLowerCase();
+            const answerer = data.slice(answererStartIdx + 6, answererEndIdx).toLowerCase();
             const text = data.slice(textStartIdx + 6);
 
             setRecord(prev => ({
@@ -176,8 +228,8 @@ const RecordForm = () => {
                 const time = data.slice(7, 15);
                 const frequency = rows[1];
 
-                const asker = rows[3] === 'НВ' ? '' : rows[3];
-                const answerer = rows[4] === 'НВ' ? '' : rows[4];
+                const asker = rows[3] === 'НВ' ? '' : rows[3].toLowerCase();
+                const answerer = rows[4] === 'НВ' ? '' : rows[4].toLowerCase();
 
                 const text = rows.slice(6).join('\n');
 
@@ -195,13 +247,21 @@ const RecordForm = () => {
         }
     };
 
+    const getStyle = () => {
+        if (record.text) {
+            const rows = record.text.split('\n').length;
+
+            return { width: '100%', minHeight: '40px', height: `${rows * 16}px ` };
+        } else return { width: '100%' };
+    };
+
     return (
         <form className={s.form} onSubmit={sendRecord}>
             <div className={s.box}>
                 <label className={s.label}>
                     <span className={s.title}>Час</span>
                     <input
-                        // className="pl-4"
+                        className={s.time}
                         type="text"
                         value={record.time}
                         onChange={setData}
@@ -212,6 +272,7 @@ const RecordForm = () => {
                     <span className={s.title}>Частота</span>
                     <input
                         list="frequency"
+                        className={s.time}
                         type="text"
                         value={record.frequency}
                         onChange={setData}
@@ -225,6 +286,7 @@ const RecordForm = () => {
                 <label className={s.label}>
                     <span className={s.title}>Район</span>
                     <input
+                        className={s.loc}
                         type="text"
                         value={record.location}
                         onChange={setData}
@@ -253,6 +315,7 @@ const RecordForm = () => {
                         onChange={setData}
                         onBlur={addKnownNick}
                         name="asker"
+                        autoComplete="off"
                     />
                 </label>
                 <label className={s.label}>
@@ -264,52 +327,45 @@ const RecordForm = () => {
                         onChange={setData}
                         onBlur={addKnownNick}
                         name="answerer"
+                        autoComplete="off"
                     />
                 </label>
-                <label className={s.label}>
+                <div className={s.multiInputBox}>
                     <span className={s.title}>Згадані позивні</span>
-                    <input
-                        list="callsigns"
-                        type="text"
-                        value={callsign}
-                        onChange={addCallsigns}
-                        onKeyDown={addCallsigns}
-                        name="another"
-                    />
-                    <datalist id="callsigns">
-                        {knownCallsigns.map(el => (
-                            <option key={el} value={el} />
+                    <ul className={s.list}>
+                        {other.map(nikname => (
+                            <li key={nikname} className={s.item}>
+                                <p>{nikname}</p>
+                                <Icon
+                                    icon="close"
+                                    w={14}
+                                    cn={s.icon}
+                                    click={() => delNickName(nikname)}
+                                />
+                            </li>
                         ))}
-                    </datalist>
-                </label>
-            </div>
-            <div className={s.listBox}>
-                <span className={s.title2}>Перелік згаданих позивних</span>
-                <ul className={s.list}>
-                    {other.map(nikname => (
-                        <li key={nikname} className={s.item}>
-                            <p>{nikname}</p>
-                            <Icon
-                                icon="close"
-                                w={14}
-                                cn={s.icon}
-                                click={() => {
-                                    delNickName(nikname);
-                                }}
+                        <label className={s.label}>
+                            <input
+                                list="callsigns"
+                                type="text"
+                                value={callsign}
+                                onChange={addCallsigns}
+                                onKeyDown={addCallsigns}
+                                name="another"
+                                autoComplete="off"
                             />
-                        </li>
-                    ))}
-                </ul>
+                            <datalist id="callsigns">
+                                {knownCallsigns.map(el => (
+                                    <option key={el} value={el} />
+                                ))}
+                            </datalist>
+                        </label>
+                    </ul>
+                </div>
             </div>
-
             <label className={s.label}>
                 <span className={s.title}>Текст</span>
-                <textarea
-                    className={s.message}
-                    value={record.text}
-                    onChange={setData}
-                    name="text"
-                />
+                <textarea style={getStyle()} value={record.text} onChange={setData} name="text" />
             </label>
 
             <label className={s.label}>

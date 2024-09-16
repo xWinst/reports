@@ -14,6 +14,8 @@
     --bg-color: #343c3e;
     --bg-gradient: linear-gradient(30deg, #0e2013, #394f55);
     --bg-gradient2: linear-gradient(120deg, #0e2013, #394f55);
+    --bg-marker: linear-gradient(120deg, #2a979b, #12586b);
+    --bg-marker2: linear-gradient(120deg, #77852c, #0deb0d);
     --additional-color: #580000;
     --error-color: #ff0000;
 
@@ -29,6 +31,7 @@ html {
 
 body {
     margin: 0;
+    font-size: 14px;
     font-family: 'Roboto', sans-serif;
     line-height: 1.17;
     letter-spacing: 0.04em;
@@ -80,6 +83,10 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 .hidden {
     position: absolute;
     white-space: nowrap;
@@ -93,8 +100,6 @@ input[type='number'] {
     margin: -1px;
 }
 
-
-
 .title {
     margin: 10px 0;
     padding: 6px 0;
@@ -103,9 +108,5 @@ input[type='number'] {
     text-align: center;
     text-transform: uppercase;
     color: var(--third-color);
-    background-image: radial-gradient(
-        circle at center,
-        #15956a8a 30%,
-        #4470614a 75%
-    );
+    background-image: radial-gradient(circle at center, #15956a8a 30%, #4470614a 75%);
 }

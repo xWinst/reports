@@ -1,0 +1,16 @@
+.container {
+    width: 40%;
+    padding: 2px 10px;
+    border-right: 2px solid var(--third-color);
+}
+
+.wave span {
+    font-size: 26px;
+    color: red;
+}
+
+.list {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}

@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import s from './DateForm.module.css';
 
 const formatDate = date => {
+    // console.log('date: ', date);
     const dateFormated = date.toLocaleString('ru-RU', {
         year: 'numeric',
         month: 'numeric',
@@ -24,6 +25,7 @@ const DateForm = () => {
     useEffect(() => {
         if (date === '') {
             const newDate = formatDate(new Date());
+            console.log('newDate: ', newDate);
             dispatch(setDate(newDate));
         }
     }, [dispatch, date]);
@@ -44,12 +46,13 @@ const DateForm = () => {
         <div className={s.calendar}>
             <Icon icon="calendar" w={18} h={20} />
             <p>Поточна Дата: </p>
+            <p className={s.date}>{date}</p>
             <DatePicker
                 maxDate={new Date()}
-                selected={date}
+                // selected={date}
                 onChange={date => saveDate(date)}
                 className={s.datePicker}
-                dateFormat="dd/MM/yyyy"
+                // dateFormat="dd/MM/yyyy"
                 // dateFormat="MMMM d, yyyy h:mm aa"
             />
             <p>Зміна</p>

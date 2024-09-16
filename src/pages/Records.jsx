@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, MultiSelect, Record, Select, Modal, DateForm, Menu } from 'components';
+import { Button, MultiSelect, Record, Select, Modal, DateForm, Menu, Icon } from 'components';
 import { clear } from 'state/database';
+import message from 'helpers/Message';
 import s from './pages.module.css';
 
 const Records = () => {
     const { records, frequencies } = useSelector(state => state.database);
     const date = useSelector(state => state.date.date);
-    console.log('date: ', date.toLocaleString());
     const shift = useSelector(state => state.date.shift);
     const [checkedRecords, setCheckedRecords] = useState(records.map(() => false));
-    // console.log('records: ', records);
     const [isExpand, setIsExpand] = useState(false);
 
     const [visibleList, setVisibleList] = useState(records);
@@ -77,7 +76,7 @@ const Records = () => {
 
     const onCheck = id => {
         const prev = [...checkedRecords];
-        console.log('prev: ', prev);
+        // console.log('prev: ', prev);
         const index = records.findIndex(record => record.id === id);
         prev[index] = !prev[index];
         setCheckedRecords(prev);
@@ -105,6 +104,18 @@ const Records = () => {
 
         setShowModal(true);
         setResultRep(result);
+    };
+
+    const copy = () => {
+        // const textarea = document.querySelector('#report');
+        navigator.clipboard
+            .writeText(resultRep)
+            .then(() => {
+                message.sucsess('Скопійовано');
+            })
+            .catch(err => {
+                console.log('Something went wrong', err);
+            });
     };
 
     return (
@@ -169,7 +180,11 @@ const Records = () => {
             </ul>
             <Button text="Зберегти БД" click={save} />
             {showModal && (
-                <Modal close={() => setShowModal(false)}>
+                <Modal>
+                    <div className={s.btnBox}>
+                        <Icon icon="copy" w={24} click={copy} />
+                        <Icon icon="close" w={18} click={() => setShowModal(false)} />
+                    </div>
                     <textarea className={s.report} value={resultRep} />
                 </Modal>
             )}

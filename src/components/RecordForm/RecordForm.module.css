@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin:30px 20px;
+    margin: 30px 20px;
 }
 
 .box {
@@ -13,10 +13,37 @@
     position: relative;
 }
 
+.label input {
+    text-transform: capitalize;
+    border-radius: 4px;
+}
+
+.multiInputBox {
+    display: flex;
+    margin-top: 20px;
+    gap: 4px;
+    padding: 2px;
+    background-color: #fff;
+    /* flex-wrap: wrap; */
+}
+
+.multiInputBox input {
+    outline: none;
+    border: none;
+}
+
 .title {
     position: absolute;
     font-size: 12px;
     transform: translateY(-120%);
+}
+
+.time {
+    width: 80px;
+}
+
+.loc {
+    width: 400px;
 }
 
 .title2 {
@@ -36,15 +63,18 @@
 .list {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap;
 }
 
 .item {
     display: flex;
     align-items: center;
-    gap:6px;
+    gap: 6px;
     padding: 2px 5px;
     background: #598b9b;
     border-radius: 4px;
+
+    text-transform: capitalize;
 }
 
 .icon {
@@ -61,5 +91,5 @@
 
 .copyMessage {
     width: 100%;
-    min-height: 200px; 
+    min-height: 200px;
 }

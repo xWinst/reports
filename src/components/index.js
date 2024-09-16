@@ -1,3 +1,4 @@
+export { default as About } from './About/About';
 export { default as Button } from './Button/Button';
 export { default as DateForm } from './DateForm/DateForm';
 export { default as Icon } from './Icon/Icon';
@@ -7,5 +8,6 @@ export { default as Modal } from './Modal/Modal';
 export { default as MultiSelect } from './MultiSelect/MultiSelect';
 export { default as PublicRoutes } from './Routes/PublicRoutes';
 export { default as Record } from './Record/Record';
+export { default as RecordEditForm } from './RecordEditForm/RecordEditForm';
 export { default as RecordForm } from './RecordForm/RecordForm';
 export { default as Select } from './Select/Select';

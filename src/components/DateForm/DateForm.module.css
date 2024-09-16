@@ -1,8 +1,17 @@
 .calendar {
+    position: relative;
     display: flex;
     gap: 15px;
     align-items: center;
     justify-content: center;
+}
+
+.date {
+    position: absolute;
+    left: 178px;
+    top: 10px;
+    pointer-events: none;
+    z-index: 200;
 }
 
 .datePicker {

@@ -6,6 +6,7 @@ import { Header, PublicRoutes } from 'components';
 import { Main } from 'pages';
 
 const Records = lazy(() => import('pages/Records'));
+const DataBase = lazy(() => import('pages/DataBase'));
 // const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 // const Validate = lazy(() => import('pages/Validate/Validate'));
 // const DashboardPage = lazy(() => import('pages/DashboardPage/DashboardPage'));
@@ -32,6 +33,7 @@ const App = () => {
                         <Route element={<PublicRoutes />}>
                             <Route path="/" element={<Main />} />
                             <Route path="/records" element={<Records />} />
+                            <Route path="/data" element={<DataBase />} />
                             {/* <Route path="/sign-up" element={<SignUpPage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/validate" element={<Validate />} /> */}
