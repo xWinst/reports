@@ -6,7 +6,7 @@ import s from './pages.module.css';
 // const menu = ['Частоти', 'Підрозділи', 'Локації', 'Позивні'];
 
 const DataBase = () => {
-    const { frequencies } = useSelector(state => state.database);
+    const { frequencies, locations, subdivisions } = useSelector(state => state.database);
     const [search, setSearch] = useState('');
 
     const getList = useCallback(
@@ -20,10 +20,10 @@ const DataBase = () => {
 
     const [knownWaves, setKnownWaves] = useState(getList('value'));
     const [subDivs, setSubDivs] = useState(getList('subdivisions'));
-    const [locations, setLocations] = useState(getList('locations'));
+    const [locs, setLocations] = useState(getList('locations'));
     const [nickNames, setNickNames] = useState(getList('nickNames'));
 
-    const [aboutWave, setAboutWave] = useState();
+    const [data, setData] = useState();
     // const [menuItem, setMenuItem] = useState('Частоти');
 
     useEffect(() => {
@@ -44,14 +44,30 @@ const DataBase = () => {
 
     const showWave = wave => {
         const waveData = frequencies.find(({ value }) => value === wave);
-        setAboutWave(waveData);
+        waveData.name = 'Частота';
+        setData(waveData);
     };
 
-    const showLoc = loc => {};
+    const showLoc = value => {
+        const locData = locations.find(({ loc }) => loc === value);
+        locData.name = 'Локація';
+        locData.value = locData.loc.toUpperCase();
+
+        setData(locData);
+    };
+    const showDiv = subdiv => {
+        const locData = subdivisions.find(({ unit }) => unit === subdiv);
+        locData.name = 'Підрозділ';
+        locData.value = locData.unit.toUpperCase();
+
+        setData(locData);
+    };
+
+    // const actions =
 
     return (
         <div className={s.container}>
-            <About data={aboutWave} />
+            <About data={data} actions={showWave} />
             {/* <ul className={s.menu}>
                 {menu.map(item => (
                     <li
@@ -78,12 +94,12 @@ const DataBase = () => {
                 <p className="title">Підрозділи</p>
                 <ul className={s.btnThumb}>
                     {subDivs.map(subdiv => (
-                        <Button key={subdiv} text={subdiv} />
+                        <Button key={subdiv} text={subdiv} click={() => showDiv(subdiv)} />
                     ))}
                 </ul>
                 <p className="title">Локації</p>
                 <ul className={s.btnThumb}>
-                    {locations.map(loc => (
+                    {locs.map(loc => (
                         <Button key={loc} text={loc} click={() => showLoc(loc)} />
                     ))}
                 </ul>
