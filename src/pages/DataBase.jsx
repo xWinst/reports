@@ -63,6 +63,17 @@ const DataBase = () => {
         setData(locData);
     };
 
+    const showName = name => {
+        const waves = frequencies.filter(({ nickNames }) => nickNames.includes(name));
+        const locData = {
+            name: 'Позивний',
+            value: name.toUpperCase(),
+            waves: waves.map(({ value }) => value),
+        };
+
+        setData(locData);
+    };
+
     // const actions =
 
     return (
@@ -106,7 +117,7 @@ const DataBase = () => {
                 <p className="title">Позивні</p>
                 <ul className={s.btnThumb}>
                     {nickNames.map(name => (
-                        <Button key={name} text={name} />
+                        <Button key={name} text={name} click={() => showName(name)} />
                     ))}
                 </ul>
             </div>
